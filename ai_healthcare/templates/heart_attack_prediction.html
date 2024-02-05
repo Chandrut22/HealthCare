@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Attack Prediction</title>
+</head>
+<body>
+    <h2>Heart Attack Prediction Form</h2>
+    <form method="post" action="{% url 'heart_attack_prediction' %}">
+        {% csrf_token %}
+
+        <label for="age">Age:</label>
+        <input type="number" name="age" required><br>
+
+        <label for="gender">Gender:</label>
+        <input type="radio" name="gender" value="1" required>
+        <label for="gender">Male</label>
+
+        <input type="radio" name="gender" value="0" required>
+        <label for="gender">Female</label><br>
+
+        <label for="cp">Chest Pain Type:</label>
+        <input type="radio" name="cp" value="0" required>
+        <label for="cp">Typical Angina</label>
+        <input type="radio" name="cp" value="1" required>
+        <label for="cp">Atypical Angina</label>
+        <input type="radio" name="cp" value="2" required>
+        <label for="cp">Non-Anginal Pain</label>
+        <input type="radio" name="cp" value="3" required>
+        <label for="cp">Asymptomatic</label>
+
+        <label for="trestbps">Resting Blood Pressure (mm Hg):</label>
+        <input type="number" name="trestbps" required><br>
+
+        <label for="chol">Cholesterol (mg/dl):</label>
+        <input type="number" name="chol" required><br>
+
+        <label for="fbs">Fasting Blood Sugar (> 120 mg/dl):</label>
+        <input type="radio" name="fbs" value="1" required>
+        <label for="fbs">Yes</label>
+        <input type="radio" name="fbs" value="0" required>
+        <label for="fbs">No</label>
+
+        <label for="restecg">Resting Electrocardiographic Results:</label>
+        <select name="restecg" required>
+            <option value="0">Normal</option>
+            <option value="1">ST-T Wave Abnormality</option>
+            <option value="2">Probable or Definite Left Ventricular Hypertrophy</option>
+        </select><br>
+
+        <label for="thalachh">Maximum Heart Rate Achieved:</label>
+        <input type="number" name="thalachh" required><br>
+
+        <label for="exang">Exercise Induced Angina:</label>
+        <input type="radio" name="exang" value="1" required>
+        <label for="exang">Yes</label>
+        <input type="radio" name="exang" value="0" required>
+        <label for="exang">No</label>
+
+        <label for="oldpeak">ST Depression Induced by Exercise Relative to Rest:</label>
+        <input type="number" name="oldpeak" required><br>
+
+        <label for="slope">Slope of the Peak Exercise ST Segment:</label>
+        <input type="number" name="slope" required><br>
+
+        <label for="ca">Number of Major Vessels (0-3):</label>
+        <input type="number" name="ca" min="0" max="3" required><br>
+
+        <label for="thal">Maximum Heart Rate Achieved:</label>
+        <input type="number" name="thal" required><br>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if result_message %}
+    <h2>Heart Attack Prediction Result</h2>
+        <p>{{ result_message }}</p>
+    {% endif %}
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liver Disease Prediction</title>
+</head>
+<body>
+    <h2>Liver Disease Prediction Form</h2>
+    <h2>Liver Disease Prediction Form</h2>
+    <form method="post" action="{% url 'liver_disease_prediction' %}">
+        {% csrf_token %}
+
+        <label for="Age">Age:</label>
+        <input type="number" name="Age" required><br>
+
+        <label for="gender">Gender:</label>
+        <input type="radio" name="gender" value="1" required>
+        <label for="gender">Male</label>
+
+        <input type="radio" name="gender" value="0" required>
+        <label for="gender">Female</label><br>
+
+        <label for="Total_Bilirubin">Total Bilirubin:</label>
+        <input type="number" name="Total_Bilirubin" step="0.01" required><br>
+
+        <label for="Direct_Bilirubin">Direct Bilirubin:</label>
+        <input type="number" name="Direct_Bilirubin" step="0.01" required><br>
+
+        <label for="Alkaline_Phosphotase">Alkaline Phosphotase:</label>
+        <input type="number" name="Alkaline_Phosphotase" required><br>
+
+        <label for="Alamine_Aminotransferase">Alamine Aminotransferase:</label>
+        <input type="number" name="Alamine_Aminotransferase" required><br>
+
+        <label for="Aspartate_Aminotransferase">Aspartate Aminotransferase:</label>
+        <input type="number" name="Aspartate_Aminotransferase" required><br>
+
+        <label for="Total_Protiens">Total Proteins:</label>
+        <input type="number" name="Total_Protiens" step="0.01" required><br>
+
+        <label for="Albumin">Albumin:</label>
+        <input type="number" name="Albumin" step="0.01" required><br>
+
+        <label for="Albumin_and_Globulin_Ratio">Albumin and Globulin Ratio:</label>
+        <input type="number" name="Albumin_and_Globulin_Ratio" step="0.01" required><br>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction %}
+    <h2>Liver Disease Prediction Result</h2>
+        <p>{{ prediction }}</p>
+    {% endif %}
+    
+</body>
+</html>

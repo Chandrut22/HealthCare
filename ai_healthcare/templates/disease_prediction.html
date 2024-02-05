@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Draggable Text</title>
+    <style>
+        .dropbox {
+            width: 350px;
+            height: 150px;
+            padding: 15px;
+            border: 1px solid #292828;
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: green;
+        }
+
+    </style>
+    <script>
+        function droppoint(event) {
+            var data = event.dataTransfer.getData("Text");
+            var draggedElement = document.getElementById(data);
+            event.target.innerHTML += draggedElement.outerHTML;
+            event.preventDefault();
+        }
+
+        function allowDropOption(event) {
+            event.preventDefault();
+        }
+
+        function dragpoint(event) {
+            event.dataTransfer.setData("Text", event.target.id);
+        }
+
+        function sendColumnsToDjango(selectedColumns) {
+        // Get the CSRF token from the cookie
+            var csrftoken = getCookie('csrftoken');
+
+            // Use AJAX to send the selected columns to the Django view
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/process_columns/', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            
+            // Include the CSRF token in the request headers
+            xhr.setRequestHeader('X-CSRFToken', csrftoken);
+
+            xhr.send(JSON.stringify({ columns: selectedColumns }));
+
+            // You can handle the response from the server if needed
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log('Columns sent successfully!');
+                }
+            };
+        }
+
+        // Function to get the CSRF token from the cookie
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Check if the cookie name matches the expected format
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</head>
+
+<body>
+
+    <!-- Add this section to display the result -->
+
+    <center>
+        <h1>Draggable Texts</h1>
+        <h3>Drag the text to the rectangle</h3>
+        <div id="dropbox" class="dropbox" ondrop="droppoint(event)" ondragover="allowDropOption(event)">
+            <!-- Dynamic content will go here -->
+        </div>
+
+        {% for column in columns %}
+        <button id="{{ column }}" class="draggable-text" draggable="true" ondragstart="dragpoint(event)">
+            {{ column }}
+        </button>
+        {% endfor %}
+
+        <button onclick="sendColumnsToDjango(getSelectedColumns())">Send Columns to Django</button>
+    </center>
+
+    
+
+    <script>
+        function getSelectedColumns() {
+            // Retrieve the list of selected column names from the dropbox
+            var selectedColumns = [];
+            var dropboxContent = document.getElementById('dropbox');
+            var buttons = dropboxContent.getElementsByTagName('button');
+
+            for (var i = 0; i < buttons.length; i++) {
+                selectedColumns.push(buttons[i].id);
+            }
+
+            return selectedColumns;
+        }
+    </script>
+
+    
+</body>
+
+</html>
